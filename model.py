@@ -85,9 +85,10 @@ def step(road: Road, rng: random.Random) -> None:
     gaps as they are at the start of the step. Only then do all cars move.
     """
     gaps = [gap(road, i) for i in range(len(road.cars))]
-    for car, ahead in zip(road.cars, gaps, strict=True):
+    for i, car in enumerate(road.cars):
+        gap_ahead = gaps[i]
         car.speed = accelerate(car.speed)
-        car.speed = brake(car.speed, ahead)
+        car.speed = brake(car.speed, gap_ahead)
         car.speed = dawdle(car.speed, road.dawdle_chance, rng)
     for car in road.cars:
         car.position = (car.position + car.speed) % road.length
